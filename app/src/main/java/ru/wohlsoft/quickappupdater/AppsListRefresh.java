@@ -5,15 +5,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +13,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import androidx.annotation.NonNull;
 
@@ -65,22 +58,13 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
     protected Void doInBackground(String... params)
     {
         String url_select = activity.get().getRepoFileUrl();
-        ArrayList<NameValuePair> param = new ArrayList<>();
+        HttpURLConnection urlConnection;
 
         try
         {
-            // Set up HTTP post
-
-            // HttpClient is more then less deprecated. Need to change to URLConnection
-            HttpClient httpClient = new DefaultHttpClient();
-
-            HttpPost httpPost = new HttpPost(url_select);
-            httpPost.setEntity(new UrlEncodedFormEntity(param));
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
-
-            // Read content & Log
-            inputStream = httpEntity.getContent();
+            URL url = new URL(url_select);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            inputStream = new BufferedInputStream(urlConnection.getInputStream());
         }
         catch (UnsupportedEncodingException e1)
         {
@@ -88,14 +72,6 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
             e1.printStackTrace();
             errorOccured = true;
             errorString = "Got an exception: " + e1.toString();
-            return null;
-        }
-        catch (ClientProtocolException e2)
-        {
-            Log.e("ClientProtocolException", e2.toString());
-            e2.printStackTrace();
-            errorOccured = true;
-            errorString = "Got an exception: " + e2.toString();
             return null;
         }
         catch (IllegalStateException e3)
@@ -129,12 +105,13 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
             BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
             StringBuilder sBuilder = new StringBuilder();
 
-            String line = null;
+            String line;
             while ((line = bReader.readLine()) != null)
-                sBuilder.append(line + "\n");
+                sBuilder.append(line).append("\n");
 
             inputStream.close();
             result = sBuilder.toString();
+            urlConnection.disconnect();
 
             String downloadPath = activity.get().getFilesDir().getPath() + "/apps.json";
             try (PrintWriter out = new PrintWriter(downloadPath))
