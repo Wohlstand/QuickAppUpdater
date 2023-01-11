@@ -6,4 +6,5 @@
     <string name="select_the_app_to_download">Выберите приложение для загрузки</string>
     <string name="app_list_json_file_url">JSON-файл списка приложений:</string>
     <string name="select_an_application_to_install_update">Выберите приложение для установки/обновления:</string>
+    <string name="app_refresh_no_json">Список приложений не загружен. Пожалуйста, запустите обновление списка, чтобы получить список приложений.</string>
 </resources>

@@ -71,8 +71,11 @@ public class MainActivity extends AppCompatActivity
 
     public void clearAppsList()
     {
-        adapter.clear();
-        appListComboBox.setAdapter(adapter);
+        if(adapter != null)
+        {
+            adapter.clear();
+            appListComboBox.setAdapter(adapter);
+        }
     }
 
     private final BroadcastReceiver downloadReceiver = new BroadcastReceiver()
@@ -130,7 +133,7 @@ public class MainActivity extends AppCompatActivity
         if(!fl.exists())
         {
             clearAppsList();
-            appPathLabel.setText("Failed to refresh list: apps.json file doesn't exist");
+            appPathLabel.setText(getResources().getString(R.string.app_refresh_no_json));
             return; // File doesn't exists
         }
 
