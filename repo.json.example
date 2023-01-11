@@ -1,0 +1,12 @@
+[
+    {
+        "name" : "<Name of application>",
+        "url" : "<HTTPS-based APK download URL>",
+        "url-http" : "<Plain HTTP-based APK download URL as fallback for Android older than 7>"
+    },
+    {
+        "name" : "<Name of the second application>",
+        "url" : "<HTTPS-based APK download URL>",
+        "url-http" : "<Plain HTTP-based APK download URL as fallback for Android older than 7>"
+    }
+]

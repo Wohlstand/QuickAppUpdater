@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Quick App Updater</string>
+    <string name="download_and_install_update">Download and install/update</string>
+    <string name="refresh_list">Refresh list</string>
+    <string name="select_the_app_to_download">Select the app to download</string>
+    <string name="app_list_json_file_url">App list JSON file URL:</string>
+    <string name="select_an_application_to_install_update">Select an application to install/update:</string>
 </resources>

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
-        android:text="Download and install/update"
+        android:text="@string/download_and_install_update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="47dp"
         android:layout_marginTop="16dp"
-        android:text="Refresh list"
+        android:text="@string/refresh_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="89dp"
         android:layout_marginTop="28dp"
-        android:text="Select the app to download"
+        android:text="@string/select_the_app_to_download"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +62,7 @@
         android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginTop="4dp"
-        android:text="App list JSON file URL:"
+        android:text="@string/app_list_json_file_url"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appPath" />
@@ -71,7 +71,7 @@
         android:id="@+id/appToUpdateLabel"
         android:layout_width="0dp"
         android:layout_height="36dp"
-        android:text="Select an application to install/update:"
+        android:text="@string/select_an_application_to_install_update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/repoUrl" />
