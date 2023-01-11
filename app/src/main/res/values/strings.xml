@@ -6,4 +6,5 @@
     <string name="app_list_json_file_url">App list JSON file URL:</string>
     <string name="select_an_application_to_install_update">Select an application to install/update:</string>
     <string name="app_refresh_no_json">Applications list wasn\'t loaded. Please run the Refresh List action to obtain the applications list.</string>
+    <string name="app_is_not_selected">App is not selected</string>
 </resources>

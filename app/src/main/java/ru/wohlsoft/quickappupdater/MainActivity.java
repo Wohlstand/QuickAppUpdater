@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity
                 if (appsListRefreshing != null)
                     appsListRefreshing.cancel(true);
                 urlDownloadSelected = "";
-                appPathLabel.setText("App is not selected");
+                appPathLabel.setText(getResources().getString(R.string.app_is_not_selected));
                 appsListRefreshing = new AppsListRefresh(MainActivity.this);
                 appsListRefreshing.execute();
             }
