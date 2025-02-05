@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -217,6 +218,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        // Workaround to keep content visible
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        {
+            RelativeLayout lo = findViewById(R.id.updaterActivityZ);
+            lo.setPadding(lo.getPaddingLeft(), lo.getPaddingLeft() + 140, lo.getPaddingRight(), lo.getPaddingBottom() + 140);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             urlRepositoryFile = "https://builds.wohlsoft.ru/android/repo.json";
