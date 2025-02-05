@@ -81,19 +81,23 @@ public class MainActivity extends AppCompatActivity
     private final BroadcastReceiver downloadReceiver = new BroadcastReceiver()
     {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent)
+        {
             long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 
-            if (downloadReference == referenceId) {
+            if (downloadReference == referenceId)
+            {
                 DownloadManager.Query q = new DownloadManager.Query();
                 q.setFilterById(referenceId);
                 Cursor c = manager.query(q);
 
                 String apkName = downloadedAppName;
-                if (c.moveToFirst()) {
+                if (c.moveToFirst())
+                {
                     int status = c.getInt(Math.max(c.getColumnIndex(DownloadManager.COLUMN_STATUS), 0));
                     Log.i("BroadcastReceiver()", "Reason: " + c.getInt(Math.max(c.getColumnIndex(DownloadManager.COLUMN_REASON), 0)));
-                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                    if (status == DownloadManager.STATUS_SUCCESSFUL)
+                    {
                         // process download
                         apkName = c.getString(Math.max(c.getColumnIndex(DownloadManager.COLUMN_TITLE), 0));
                         // get other required data by changing the constant passed to getColumnIndex
@@ -101,9 +105,8 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 File file = new File(downloadPath, apkName);
-                if (file.exists()) {
+                if(file.exists())
                     startInstallerIntent(new File(downloadPath + File.separator + apkName), manager.getMimeTypeForDownloadedFile(referenceId));
-                }
             }
         }
     };
@@ -207,8 +210,10 @@ public class MainActivity extends AppCompatActivity
         } // catch (JSONException e)
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -223,7 +228,9 @@ public class MainActivity extends AppCompatActivity
         urlDownloadSelected = m_setup.getString("selected-url", "");
         urlRepositoryFile = m_setup.getString("repo-url", urlRepositoryFile);
 
-        downloadPath = getExternalCacheDir().getPath();
+        File baseCache = getExternalCacheDir();
+
+        downloadPath = baseCache.getPath();
         appPathLabel = findViewById(R.id.appPath);
 
         urlRepoEdit = findViewById(R.id.repoUrl);
@@ -258,6 +265,9 @@ public class MainActivity extends AppCompatActivity
                                        int position, long id)
             {
                 DownloadAppEntry app = adapter.getItem(position);
+                if(app == null)
+                    return;
+
                 urlDownloadSelected = app.url;
                 urlSelectedItem = position;
                 appPathLabel.setText(urlDownloadSelected);
@@ -276,7 +286,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                if (appsListRefreshing != null)
+                if(appsListRefreshing != null)
                     appsListRefreshing.cancel(true);
                 urlDownloadSelected = "";
                 appPathLabel.setText(getResources().getString(R.string.app_is_not_selected));
@@ -293,30 +303,36 @@ public class MainActivity extends AppCompatActivity
             {
                 if(urlDownloadSelected == null || urlDownloadSelected.equals(""))
                     return;
-                downloadedAppName = "thextech-update-master.apk";
+
+                downloadedAppName = "app-update.apk";
                 doDownloadApp(urlDownloadSelected, Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? "https" : "http");
             }
         });
 
         IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-        registerReceiver(downloadReceiver, filter);
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            registerReceiver(downloadReceiver, filter, Context.RECEIVER_EXPORTED);
+        else
+            registerReceiver(downloadReceiver, filter);
 
         reloadAppsList();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
         // Cancel running task(s) to avoid memory leaks
-        if (appsListRefreshing != null)
+        if(appsListRefreshing != null)
             appsListRefreshing.cancel(true);
     }
 
     @SuppressLint("SetTextI18n")
     private void doDownloadApp(String appUrl, String proto)
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !getPackageManager().canRequestPackageInstalls()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !getPackageManager().canRequestPackageInstalls())
+        {
             Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
             String pName = getPackageName();
             Uri uri = Uri.fromParts("package", pName, null);

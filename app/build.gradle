@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "ru.wohlsoft.quickappupdater"
         minSdk 16
-        targetSdk 32
+        targetSdkVersion 34
         versionCode 2
         versionName "2.0"
 
@@ -34,17 +34,19 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
+    //noinspection GradleDependency: the version 1.6.1 is last that support minSDK 16, newer version will require MinSDK 21
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    //noinspection GradleDependency: the version 1.11.0 is last that support minSDK 16, newer version will require MinSDK 19
+    implementation 'com.google.android.material:material:1.11.0'
+    //noinspection GradleDependency: the version 2.1.4 is last that support minSDK 16, newer version will require MinSDK 21
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
 allprojects {
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xlint:unchecked"
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.compilerArgs << "-Xlint:unchecked"
+        }
     }
 }

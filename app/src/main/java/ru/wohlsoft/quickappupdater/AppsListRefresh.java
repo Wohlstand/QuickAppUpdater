@@ -33,7 +33,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
      */
     private final ProgressDialog dialog;
     private final WeakReference<MainActivity> activity;
-    private Boolean errorOccured = false;
+    private Boolean errorOccurred = false;
     private String errorString = "";
 
     InputStream inputStream = null;
@@ -41,7 +41,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
 
     protected void onPreExecute()
     {
-        this.errorOccured = false;
+        this.errorOccurred = false;
         this.errorString = "";
         this.dialog.setMessage("Refreshing applications list...");
         this.dialog.setOnCancelListener(new DialogInterface.OnCancelListener()
@@ -70,7 +70,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
         {
             Log.e("UnsupportedEncoding", e1.toString());
             e1.printStackTrace();
-            errorOccured = true;
+            errorOccurred = true;
             errorString = "Got an exception: " + e1.toString();
             return null;
         }
@@ -78,7 +78,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
         {
             Log.e("IllegalStateException", e3.toString());
             e3.printStackTrace();
-            errorOccured = true;
+            errorOccurred = true;
             errorString = "Got an exception: " + e3.toString();
             return null;
         }
@@ -86,7 +86,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
         {
             Log.e("IOException", e4.toString());
             e4.printStackTrace();
-            errorOccured = true;
+            errorOccurred = true;
             errorString = "Got an exception: " + e4.toString();
             return null;
         }
@@ -94,7 +94,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
         {
             Log.e("IllegalArgument", e5.toString());
             e5.printStackTrace();
-            errorOccured = true;
+            errorOccurred = true;
             errorString = "Got an exception: " + e5.toString();
             return null;
         }
@@ -122,7 +122,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
         catch (Exception e)
         {
             Log.e("String/Buffered", "Error converting result " + e.toString());
-            errorOccured = true;
+            errorOccurred = true;
             errorString = "Got an exception: " + e.toString();
         }
 
@@ -131,7 +131,7 @@ public class AppsListRefresh extends AsyncTask<String, Void, Void>
 
     protected void onPostExecute(Void v)
     {
-        if(errorOccured)
+        if(errorOccurred)
         {
             activity.get().clearAppsList();
             activity.get().setShownText(errorString);
